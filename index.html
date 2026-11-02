@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFC907">
+  <title>Wett Willy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand">
+      <span class="logo-can" aria-hidden="true"></span>
+      <div>
+        <p class="eyebrow">a student prototype inspired by <span class="cw">charity: water</span></p>
+        <h1>Wett Willy</h1>
+        <p class="tagline">Water changes everything.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hud" id="hud" aria-label="Game status" hidden>
+      <div class="stat">
+        <span class="stat-label">Score</span>
+        <strong id="score" class="stat-value" aria-live="polite">0</strong>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Jerry can</span>
+        <strong id="can-status" class="stat-value">Empty</strong>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Delivered</span>
+        <strong id="progress" class="stat-value">0 / 1</strong>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Time</span>
+        <strong id="time-left" class="stat-value">0</strong>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Mode</span>
+        <strong id="mode-label" class="stat-value key-value">Normal</strong>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Keys</span>
+        <strong class="stat-value key-value">R reset · Esc title</strong>
+      </div>
+    </section>
+
+    <p class="mission" id="mission">
+      Use the arrow keys and Enter. No mouse needed.
+    </p>
+
+    <div class="stage-frame" id="stage">
+      <div class="world" id="world">
+        <div class="sun" aria-hidden="true"></div>
+        <div class="cloud cloud-a" aria-hidden="true"></div>
+        <div class="cloud cloud-b" aria-hidden="true"></div>
+        <div class="hill hill-a" aria-hidden="true"></div>
+        <div class="hill hill-b" aria-hidden="true"></div>
+        <div class="basin" aria-hidden="true"></div>
+        <div id="platforms"></div>
+        <div id="hazards"></div>
+        <div id="actors"></div>
+        <div id="player" class="player">
+          <div class="sprite">
+            <span class="can-back"></span>
+            <span class="hair"></span>
+            <span class="head"></span>
+            <span class="body"></span>
+            <span class="legs"><i></i><i></i></span>
+          </div>
+        </div>
+        <div id="floaters"></div>
+      </div>
+      <div class="flash" id="flash" aria-hidden="true"></div>
+      <div class="confetti" id="confetti" aria-hidden="true"></div>
+      <div class="screen" id="screen-title">
+        <p class="screen-kicker">a student prototype</p>
+        <h2>Wett Willy</h2>
+        <p class="screen-note">Water changes everything.</p>
+        <ul class="menu-list" id="title-menu">
+          <li class="menu-item is-selected" data-menu="play">Play</li>
+          <li class="menu-item" data-menu="select">Level select</li>
+          <li class="menu-item" data-menu="difficulty">Difficulty: Normal</li>
+          <li class="menu-item" data-menu="credits">Credits</li>
+        </ul>
+        <p class="screen-note">Arrow keys to choose. Enter to start.</p>
+      </div>
+      <div class="screen" id="screen-select" hidden>
+        <p class="screen-kicker">Level select</p>
+        <h2>Choose a route</h2>
+        <ul class="menu-list" id="level-menu"></ul>
+        <p class="screen-note">Enter to play. Esc to go back.</p>
+      </div>
+      <div class="screen" id="screen-difficulty" hidden>
+        <p class="screen-kicker">Difficulty</p>
+        <h2>Choose a pace</h2>
+        <ul class="menu-list" id="difficulty-menu"></ul>
+        <p class="screen-note">Enter or Esc to go back.</p>
+      </div>
+      <div class="screen" id="screen-credits" hidden>
+        <p class="screen-kicker">Credits</p>
+        <h2>Created by</h2>
+        <p class="creator">Bradley Leon</p>
+        <p class="screen-note">
+          A student prototype inspired by <span class="cw">charity: water</span>.
+          William carries clean water from wells to people who are waiting.
+        </p>
+        <p class="screen-note">Enter or Esc to go back.</p>
+      </div>
+      <div class="win" id="win" hidden tabindex="-1" aria-hidden="true">
+        <p class="win-kicker">You did it</p>
+        <p class="win-title">Clean water is delivered.</p>
+        <p class="win-line">Water changes everything.</p>
+        <p class="screen-note">Enter for level select. R to replay.</p>
+      </div>
+      <div class="win" id="fail" hidden aria-hidden="true">
+        <p class="win-kicker">Not quite</p>
+        <p class="win-title" id="fail-title">Time's up.</p>
+        <p class="screen-note" id="fail-note"></p>
+        <p class="screen-note">R to try again. Enter for level select.</p>
+      </div>
+    </div>
+
+    <p id="toast" class="toast" role="status">Arrow keys to choose. Enter to start.</p>
+
+    <p class="help" id="help">
+      Menus: arrow keys and Enter. In a level: A and D or the arrow keys to move, W or space to jump.
+      Walk up to a well and the jerry can leaves the well. Walk up to people and a can appears beside them.
+      Easy, Normal, and Hard change the clock, Willy’s pace, penalties, and the score needed to win.
+      R resets the level. Esc returns to the title.
+    </p>
+  </main>
+
+  <footer>
+    <p>
+      Inspired by <span class="cw">charity: water</span>. The organization is on a mission to bring
+      clean, safe drinking water to every person on the planet. This class prototype is not an official
+      charity: water product.
+    </p>
+    <p class="footer-links">
+      <a href="https://www.charitywater.org/" target="_blank" rel="noopener noreferrer"><span class="cw">charity: water</span></a>
+      <a href="https://www.charitywater.org/donate" target="_blank" rel="noopener noreferrer">Donate</a>
+    </p>
+  </footer>
+
+  <noscript>This prototype needs JavaScript to run the game.</noscript>
+  <script src="game.js"></script>
+</body>
+</html>
